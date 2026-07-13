@@ -1,0 +1,1158 @@
+:root {
+  --fondo: #f7f5f0;
+  --papel: #ffffff;
+  --tinta: #19172f;
+  --tintaSuave: #5f5b6e;
+  --acento: #6d5dfc;
+  --acentoOscuro: #5546d8;
+  --verde: #0c826f;
+  --verdeSuave: #dcebe7;
+  --coral: #ef7b61;
+  --borde: #dedbe3;
+  --sombra: 0 20px 60px rgba(25, 23, 47, .09);
+  --radio: 28px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--tinta);
+  background: var(--fondo);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.45;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  width: 100%;
+}
+
+.contenedor {
+  width: min(1460px, calc(100% - 64px));
+  margin: 0 auto;
+}
+
+.cabecera {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 255, 255, .96);
+  border-bottom: 1px solid rgba(25, 23, 47, .08);
+  backdrop-filter: blur(16px);
+}
+
+.barraNavegacion {
+  min-height: 86px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: -.04em;
+}
+
+.marca img {
+  width: 40px;
+  height: 40px;
+}
+
+.enlacesNavegacion {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+  font-weight: 650;
+}
+
+.enlaceNavegacion {
+  position: relative;
+  padding: 12px 0;
+}
+
+.enlaceNavegacion::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: 6px;
+  height: 2px;
+  background: var(--acento);
+  transition: right .22s ease;
+}
+
+.enlaceNavegacion:hover::after,
+.enlaceNavegacion.activo::after {
+  right: 0;
+}
+
+.accionesNavegacion {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.boton,
+.botonSecundario,
+.botonTexto {
+  border: 0;
+  cursor: pointer;
+  transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 0 26px;
+  border-radius: 999px;
+  color: #fff;
+  background: var(--acento);
+  font-weight: 800;
+  box-shadow: 0 14px 30px rgba(109, 93, 252, .22);
+}
+
+.boton:hover {
+  background: var(--acentoOscuro);
+  transform: translateY(-2px);
+}
+
+.botonSecundario {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 24px;
+  border-radius: 999px;
+  color: var(--tinta);
+  background: transparent;
+  border: 1px solid var(--borde);
+  font-weight: 750;
+}
+
+.botonSecundario:hover {
+  background: #fff;
+  transform: translateY(-2px);
+}
+
+.botonTexto {
+  color: var(--tinta);
+  background: transparent;
+  font-weight: 750;
+  padding: 12px;
+}
+
+.botonTexto:hover {
+  color: var(--acento);
+}
+
+.botonPeligro {
+  color: #a33232;
+  border-color: #e7bcbc;
+}
+
+.boton:disabled,
+.botonSecundario:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+  transform: none;
+}
+
+.menuMovil {
+  display: none;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--borde);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--tinta);
+  font-size: 22px;
+}
+
+.hero {
+  min-height: 760px;
+  display: grid;
+  grid-template-columns: .85fr 1.15fr;
+  background: #74737c;
+  color: #fff;
+  overflow: hidden;
+}
+
+.heroContenido {
+  padding: 86px max(48px, calc((100vw - 1460px) / 2));
+  padding-right: 46px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sobretitulo {
+  display: inline-flex;
+  width: fit-content;
+  padding: 9px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .14);
+  border: 1px solid rgba(255, 255, 255, .22);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  margin: 24px 0 22px;
+  max-width: 710px;
+  font-size: clamp(62px, 7vw, 112px);
+  line-height: .87;
+  letter-spacing: -.075em;
+}
+
+.hero p {
+  max-width: 620px;
+  margin: 0 0 34px;
+  font-size: clamp(19px, 1.65vw, 27px);
+  font-weight: 650;
+  color: rgba(255, 255, 255, .94);
+}
+
+.metricasHero {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 36px;
+}
+
+.metricaHero {
+  min-width: 128px;
+  padding: 15px 18px;
+  color: var(--tinta);
+  background: #a5a8ff;
+}
+
+.metricaHero strong {
+  display: block;
+  font-size: 34px;
+  line-height: 1;
+  letter-spacing: -.04em;
+}
+
+.metricaHero span {
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.heroImagen {
+  min-height: 760px;
+  position: relative;
+}
+
+.heroImagen img {
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.seccion {
+  padding: 110px 0;
+}
+
+.seccionBlanca {
+  background: #fff;
+}
+
+.seccionVerde {
+  background: var(--verdeSuave);
+}
+
+.cabeceraSeccion {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 32px;
+  margin-bottom: 52px;
+}
+
+.cabeceraSeccion h2 {
+  margin: 0;
+  max-width: 960px;
+  font-size: clamp(42px, 5vw, 78px);
+  line-height: .98;
+  letter-spacing: -.055em;
+}
+
+.cabeceraSeccion p {
+  max-width: 520px;
+  margin: 16px 0 0;
+  color: var(--tintaSuave);
+  font-size: 19px;
+}
+
+.grillaFormulas {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.tarjetaFormula {
+  display: flex;
+  flex-direction: column;
+  min-height: 560px;
+  background: var(--papel);
+  border: 1px solid var(--borde);
+  overflow: hidden;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.tarjetaFormula:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--sombra);
+}
+
+.tarjetaFormula img {
+  aspect-ratio: 1.18;
+  object-fit: cover;
+}
+
+.tarjetaFormulaContenido {
+  flex: 1;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tarjetaFormula h3 {
+  margin: 0 0 10px;
+  font-size: 25px;
+  letter-spacing: -.03em;
+}
+
+.tarjetaFormula p {
+  margin: 0 0 26px;
+  color: var(--tintaSuave);
+}
+
+.tarjetaFormula .botonTexto {
+  margin-top: auto;
+  padding-left: 0;
+  text-align: left;
+}
+
+.resultadosPrincipal {
+  display: grid;
+  grid-template-columns: .8fr 1.2fr;
+  gap: 58px;
+  align-items: end;
+}
+
+.resultadosTexto h2 {
+  margin: 0 0 28px;
+  font-size: clamp(54px, 6vw, 92px);
+  line-height: .93;
+  letter-spacing: -.06em;
+}
+
+.estrellas {
+  color: var(--acento);
+  font-size: 29px;
+  letter-spacing: 3px;
+}
+
+.estrellas span {
+  color: var(--tinta);
+  font-size: 18px;
+  letter-spacing: normal;
+  font-weight: 700;
+}
+
+.carruselResultados {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(240px, 1fr));
+  gap: 18px;
+}
+
+.resultado {
+  padding: 24px;
+  background: var(--papel);
+  border: 1px solid var(--borde);
+}
+
+.comparacion {
+  height: 260px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  background: #e4d5cc;
+}
+
+.pielAntes,
+.pielDespues {
+  position: relative;
+  overflow: hidden;
+}
+
+.pielAntes::before,
+.pielDespues::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: #d4a287;
+  background-size: 73px 67px, 98px 93px, 52px 49px;
+}
+
+.pielDespues::before {
+  opacity: .35;
+  background-color: #deb49c;
+}
+
+.etiquetaComparacion {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  padding: 5px 8px;
+  background: var(--coral);
+  color: var(--tinta);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.resultado h3 {
+  margin: 20px 0 7px;
+  font-size: 22px;
+}
+
+.resultado p {
+  margin: 0;
+  color: var(--tintaSuave);
+}
+
+.pasos {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--borde);
+  border-bottom: 1px solid var(--borde);
+}
+
+.paso {
+  min-height: 350px;
+  padding: 34px;
+  border-right: 1px solid var(--borde);
+}
+
+.paso:last-child {
+  border-right: 0;
+}
+
+.numeroPaso {
+  display: block;
+  margin-bottom: 90px;
+  font-size: 92px;
+  line-height: .8;
+  font-weight: 900;
+  letter-spacing: -.08em;
+}
+
+.paso h3 {
+  margin: 0 0 12px;
+  font-size: 26px;
+  line-height: 1.02;
+}
+
+.paso p {
+  color: var(--tintaSuave);
+}
+
+.pagina {
+  min-height: calc(100vh - 86px);
+}
+
+.encabezadoPagina {
+  padding: 72px 0 48px;
+  background: #fff;
+  border-bottom: 1px solid var(--borde);
+}
+
+.encabezadoPagina h1 {
+  margin: 0 0 14px;
+  font-size: clamp(46px, 6vw, 84px);
+  line-height: .95;
+  letter-spacing: -.06em;
+}
+
+.encabezadoPagina p {
+  max-width: 720px;
+  margin: 0;
+  color: var(--tintaSuave);
+  font-size: 20px;
+}
+
+.buscadorMedicos {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr auto;
+  gap: 10px;
+  max-width: 1020px;
+  margin-top: 34px;
+}
+
+.campo,
+.selector,
+.areaTexto {
+  width: 100%;
+  min-height: 54px;
+  padding: 0 17px;
+  border: 1px solid var(--borde);
+  border-radius: 14px;
+  color: var(--tinta);
+  background: #fff;
+  outline: none;
+  transition: border .2s ease, box-shadow .2s ease;
+}
+
+.campo:focus,
+.selector:focus,
+.areaTexto:focus {
+  border-color: var(--acento);
+  box-shadow: 0 0 0 4px rgba(109, 93, 252, .12);
+}
+
+.areaTexto {
+  min-height: 120px;
+  padding-top: 14px;
+  resize: vertical;
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 28px 0;
+}
+
+.filtro {
+  min-height: 42px;
+  padding: 0 17px;
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--tintaSuave);
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.filtro.activo {
+  color: #fff;
+  background: var(--verde);
+  border-color: var(--verde);
+}
+
+.contenidoMedicos {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 390px;
+  gap: 28px;
+  padding-bottom: 90px;
+}
+
+.listaMedicos {
+  display: grid;
+  gap: 18px;
+}
+
+.tarjetaMedico {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr) 220px;
+  gap: 22px;
+  padding: 26px;
+  background: #fff;
+  border: 1px solid var(--borde);
+  border-radius: 24px;
+  transition: box-shadow .22s ease, transform .22s ease;
+}
+
+.tarjetaMedico:hover {
+  box-shadow: var(--sombra);
+  transform: translateY(-3px);
+}
+
+.avatarMedico {
+  width: 100px;
+  height: 100px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--verde);
+  font-size: 31px;
+  font-weight: 900;
+}
+
+.informacionMedico h3 {
+  margin: 0;
+  font-size: 25px;
+  letter-spacing: -.03em;
+}
+
+.verificado {
+  color: var(--verde);
+  font-size: 15px;
+}
+
+.especialidadMedico {
+  margin: 5px 0 14px;
+  color: var(--tintaSuave);
+}
+
+.detallesMedico {
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.accionesMedico {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  border-left: 1px solid var(--borde);
+  padding-left: 22px;
+}
+
+.precioMedico {
+  text-align: center;
+  font-weight: 800;
+}
+
+.mapaFicticio {
+  position: sticky;
+  top: 110px;
+  height: 640px;
+  overflow: hidden;
+  border-radius: 28px;
+  background: #dbe9e4;
+  border: 1px solid #bed3cc;
+}
+
+.mapaFicticio::before,
+.mapaFicticio::after {
+  content: "";
+  position: absolute;
+  background: #fff;
+  opacity: .8;
+  transform: rotate(-18deg);
+}
+
+.mapaFicticio::before {
+  width: 130%;
+  height: 24px;
+  left: -15%;
+  top: 28%;
+  box-shadow: 0 170px 0 #fff, 0 330px 0 #fff;
+}
+
+.mapaFicticio::after {
+  width: 22px;
+  height: 130%;
+  left: 44%;
+  top: -15%;
+  box-shadow: 130px 0 0 #fff, -110px 0 0 #fff;
+}
+
+.marcadorMapa {
+  position: absolute;
+  z-index: 2;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50% 50% 50% 0;
+  color: #fff;
+  background: var(--verde);
+  transform: rotate(-45deg);
+  box-shadow: 0 7px 15px rgba(12, 130, 111, .25);
+}
+
+.marcadorMapa span {
+  transform: rotate(45deg);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.panel {
+  padding: 60px 0 100px;
+}
+
+.grillaPanel {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 30px;
+}
+
+.menuPanel,
+.contenidoPanel {
+  background: #fff;
+  border: 1px solid var(--borde);
+  border-radius: 24px;
+}
+
+.menuPanel {
+  height: fit-content;
+  padding: 16px;
+}
+
+.menuPanel button {
+  width: 100%;
+  padding: 16px;
+  border: 0;
+  border-radius: 12px;
+  text-align: left;
+  color: var(--tintaSuave);
+  background: transparent;
+  cursor: pointer;
+  font-weight: 750;
+}
+
+.menuPanel button.activo {
+  color: var(--tinta);
+  background: var(--verdeSuave);
+}
+
+.contenidoPanel {
+  padding: 30px;
+}
+
+.resumenes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.resumen {
+  padding: 22px;
+  border: 1px solid var(--borde);
+  border-radius: 18px;
+}
+
+.resumen strong {
+  display: block;
+  font-size: 37px;
+  letter-spacing: -.04em;
+}
+
+.tablaResponsiva {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 17px 12px;
+  border-bottom: 1px solid var(--borde);
+  text-align: left;
+  white-space: nowrap;
+}
+
+th {
+  color: var(--tintaSuave);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.estado {
+  display: inline-flex;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.estadoConfirmada {
+  color: #126554;
+  background: #d8eee9;
+}
+
+.estadoCancelada {
+  color: #9d3232;
+  background: #f5dcdc;
+}
+
+.estadoPendiente {
+  color: #775b09;
+  background: #f4eac5;
+}
+
+.modalFondo {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(19, 17, 37, .58);
+}
+
+.modal {
+  width: min(720px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 28px;
+  box-shadow: 0 36px 90px rgba(0, 0, 0, .25);
+}
+
+.modalCabecera,
+.modalContenido,
+.modalPie {
+  padding: 26px 30px;
+}
+
+.modalCabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--borde);
+}
+
+.modalCabecera h2 {
+  margin: 0;
+  font-size: 31px;
+}
+
+.cerrarModal {
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--borde);
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+  font-size: 21px;
+}
+
+.formulario {
+  display: grid;
+  gap: 18px;
+}
+
+.filaFormulario {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.grupoCampo {
+  display: grid;
+  gap: 8px;
+}
+
+.grupoCampo label {
+  font-size: 13px;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.modalPie {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  border-top: 1px solid var(--borde);
+}
+
+.carga {
+  display: grid;
+  place-items: center;
+  min-height: 260px;
+  color: var(--tintaSuave);
+}
+
+.vacio {
+  padding: 54px;
+  text-align: center;
+  border: 1px dashed var(--borde);
+  border-radius: 20px;
+  color: var(--tintaSuave);
+}
+
+.notificaciones {
+  position: fixed;
+  z-index: 120;
+  right: 22px;
+  bottom: 22px;
+  display: grid;
+  gap: 10px;
+}
+
+.notificacion {
+  width: min(390px, calc(100vw - 44px));
+  padding: 17px 20px;
+  color: #fff;
+  background: var(--tinta);
+  border-radius: 16px;
+  box-shadow: var(--sombra);
+  animation: aparecer .25s ease;
+}
+
+.notificacionError {
+  background: #9f3939;
+}
+
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.piePagina {
+  padding: 70px 0;
+  color: #fff;
+  background: var(--tinta);
+}
+
+.grillaPie {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(3, 1fr);
+  gap: 38px;
+}
+
+.piePagina h3,
+.piePagina h4 {
+  margin-top: 0;
+}
+
+.piePagina p,
+.piePagina a {
+  color: rgba(255, 255, 255, .68);
+}
+
+.listaPie {
+  display: grid;
+  gap: 10px;
+}
+
+@media (max-width: 1180px) {
+  .hero {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .grillaFormulas {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .resultadosPrincipal {
+    grid-template-columns: 1fr;
+  }
+
+  .contenidoMedicos {
+    grid-template-columns: 1fr;
+  }
+
+  .mapaFicticio {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .contenedor {
+    width: min(100% - 34px, 1460px);
+  }
+
+  .enlacesNavegacion,
+  .accionesNavegacion .botonTexto {
+    display: none;
+  }
+
+  .menuMovil {
+    display: block;
+  }
+
+  .enlacesNavegacion.abierto {
+    position: absolute;
+    top: 86px;
+    left: 0;
+    right: 0;
+    display: grid;
+    padding: 24px;
+    background: #fff;
+    border-bottom: 1px solid var(--borde);
+  }
+
+  .hero {
+    min-height: auto;
+    grid-template-columns: 1fr;
+  }
+
+  .heroContenido {
+    padding: 70px 28px;
+  }
+
+  .heroImagen {
+    min-height: 560px;
+  }
+
+  .cabeceraSeccion {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .pasos {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .paso:nth-child(2) {
+    border-right: 0;
+  }
+
+  .paso:nth-child(-n+2) {
+    border-bottom: 1px solid var(--borde);
+  }
+
+  .tarjetaMedico {
+    grid-template-columns: 90px 1fr;
+  }
+
+  .avatarMedico {
+    width: 82px;
+    height: 82px;
+  }
+
+  .accionesMedico {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    border-left: 0;
+    border-top: 1px solid var(--borde);
+    padding: 18px 0 0;
+  }
+
+  .grillaPanel {
+    grid-template-columns: 1fr;
+  }
+
+  .menuPanel {
+    display: flex;
+    overflow-x: auto;
+  }
+
+  .menuPanel button {
+    min-width: max-content;
+  }
+
+  .grillaPie {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .barraNavegacion {
+    min-height: 72px;
+  }
+
+  .marca {
+    font-size: 22px;
+  }
+
+  .marca img {
+    width: 34px;
+    height: 34px;
+  }
+
+  .accionesNavegacion .boton {
+    display: none;
+  }
+
+  .hero h1 {
+    font-size: 56px;
+  }
+
+  .heroImagen {
+    min-height: 430px;
+  }
+
+  .seccion {
+    padding: 76px 0;
+  }
+
+  .grillaFormulas,
+  .carruselResultados,
+  .pasos,
+  .resumenes,
+  .grillaPie {
+    grid-template-columns: 1fr;
+  }
+
+  .paso {
+    border-right: 0;
+    border-bottom: 1px solid var(--borde);
+  }
+
+  .paso:last-child {
+    border-bottom: 0;
+  }
+
+  .numeroPaso {
+    margin-bottom: 42px;
+  }
+
+  .buscadorMedicos {
+    grid-template-columns: 1fr;
+  }
+
+  .tarjetaMedico {
+    grid-template-columns: 1fr;
+  }
+
+  .accionesMedico {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .avatarMedico {
+    width: 74px;
+    height: 74px;
+  }
+
+  .filaFormulario {
+    grid-template-columns: 1fr;
+  }
+
+  .modalContenido,
+  .modalCabecera,
+  .modalPie {
+    padding: 22px;
+  }
+}
