@@ -1,0 +1,14 @@
+* text=auto
+*.sh text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.tf text eol=lf
+*.rego text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.ini text eol=lf
+*.alloy text eol=lf
+Dockerfile text eol=lf
+Jenkinsfile text eol=lf
+*.ps1 text eol=crlf
