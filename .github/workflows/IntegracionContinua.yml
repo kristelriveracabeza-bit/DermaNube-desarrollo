@@ -94,7 +94,7 @@ jobs:
           publicarImagen "$REGISTRO/dermanube-produccion/trabajadordocumentos" Aplicacion/TrabajadorDocumentos
 
       - name: Activar Jenkins
-        if: ${{ secrets.JENKINSURL != 'https://carnation-reusable-stuffing.ngrok-free.dev' }}
+        if: ${{ secrets.JENKINSURL != 'https://carnation-reusable-stuffing.ngrok-free.dev/job/DermaNube-Despliegue'}}
         env:
           JENKINSURL: ${{ secrets.JENKINSURL }}
           JENKINSTOKEN: ${{ secrets.JENKINSTOKEN }}
