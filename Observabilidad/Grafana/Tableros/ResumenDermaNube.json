@@ -1,0 +1,25 @@
+{
+  "annotations": {"list": []},
+  "editable": true,
+  "graphTooltip": 1,
+  "panels": [
+    {"datasource":{"type":"prometheus","uid":"prometheus"},"fieldConfig":{"defaults":{"unit":"reqps"},"overrides":[]},"gridPos":{"h":8,"w":8,"x":0,"y":0},"id":1,"options":{"legend":{"displayMode":"list","placement":"bottom","showLegend":true},"tooltip":{"mode":"single","sort":"none"}},"targets":[{"expr":"rate(serviciocitas_solicitudes_total[5m])","legendFormat":"ServicioCitas","refId":"A"},{"expr":"rate(serviciopersonas_solicitudes_total[5m])","legendFormat":"ServicioPersonas","refId":"B"}],"title":"Solicitudes por segundo","type":"timeseries"},
+    {"datasource":{"type":"prometheus","uid":"prometheus"},"fieldConfig":{"defaults":{"unit":"s"},"overrides":[]},"gridPos":{"h":8,"w":8,"x":8,"y":0},"id":2,"options":{"legend":{"displayMode":"list","placement":"bottom","showLegend":true},"tooltip":{"mode":"single","sort":"none"}},"targets":[{"expr":"serviciocitas_duracion_promedio_segundos","legendFormat":"Citas","refId":"A"},{"expr":"serviciopersonas_duracion_promedio_segundos","legendFormat":"Personas","refId":"B"}],"title":"Duración promedio","type":"timeseries"},
+    {"datasource":{"type":"prometheus","uid":"prometheus"},"fieldConfig":{"defaults":{"unit":"percentunit","min":0,"max":1},"overrides":[]},"gridPos":{"h":8,"w":8,"x":16,"y":0},"id":3,"options":{"legend":{"displayMode":"list","placement":"bottom","showLegend":true},"tooltip":{"mode":"single","sort":"none"}},"targets":[{"expr":"1 - avg(rate(node_cpu_seconds_total{mode=\"idle\"}[5m]))","legendFormat":"CPU host","refId":"A"}],"title":"CPU del host","type":"timeseries"},
+    {"datasource":{"type":"prometheus","uid":"prometheus"},"fieldConfig":{"defaults":{},"overrides":[]},"gridPos":{"h":7,"w":6,"x":0,"y":8},"id":4,"options":{"colorMode":"value","graphMode":"area","justifyMode":"auto","orientation":"auto","reduceOptions":{"calcs":["lastNotNull"],"fields":"","values":false},"textMode":"auto"},"targets":[{"expr":"serviciocitas_creadas_total","refId":"A"}],"title":"Citas creadas","type":"stat"},
+    {"datasource":{"type":"prometheus","uid":"prometheus"},"fieldConfig":{"defaults":{},"overrides":[]},"gridPos":{"h":7,"w":6,"x":6,"y":8},"id":5,"options":{"colorMode":"value","graphMode":"area","justifyMode":"auto","orientation":"auto","reduceOptions":{"calcs":["lastNotNull"],"fields":"","values":false},"textMode":"auto"},"targets":[{"expr":"serviciocitas_canceladas_total","refId":"A"}],"title":"Citas canceladas","type":"stat"},
+    {"datasource":{"type":"prometheus","uid":"prometheus"},"fieldConfig":{"defaults":{},"overrides":[]},"gridPos":{"h":7,"w":6,"x":12,"y":8},"id":6,"options":{"colorMode":"value","graphMode":"area","justifyMode":"auto","orientation":"auto","reduceOptions":{"calcs":["lastNotNull"],"fields":"","values":false},"textMode":"auto"},"targets":[{"expr":"serviciopersonas_especialistas_consultados_total","refId":"A"}],"title":"Consultas de especialistas","type":"stat"},
+    {"datasource":{"type":"prometheus","uid":"prometheus"},"fieldConfig":{"defaults":{},"overrides":[]},"gridPos":{"h":7,"w":6,"x":18,"y":8},"id":7,"options":{"colorMode":"value","graphMode":"area","justifyMode":"auto","orientation":"auto","reduceOptions":{"calcs":["lastNotNull"],"fields":"","values":false},"textMode":"auto"},"targets":[{"expr":"serviciocitas_alertas_recibidas_total","refId":"A"}],"title":"Alertas recibidas","type":"stat"},
+    {"datasource":{"type":"loki","uid":"loki"},"gridPos":{"h":11,"w":12,"x":0,"y":15},"id":8,"options":{"dedupStrategy":"none","enableLogDetails":true,"prettifyLogMessage":true,"showCommonLabels":false,"showLabels":false,"showTime":true,"sortOrder":"Descending","wrapLogMessage":true},"targets":[{"expr":"{nivelarquitectura=\"aplicacion\"} | json","refId":"A"}],"title":"Registros de aplicación","type":"logs"},
+    {"datasource":{"type":"loki","uid":"loki"},"gridPos":{"h":11,"w":12,"x":12,"y":15},"id":9,"options":{"dedupStrategy":"none","enableLogDetails":true,"prettifyLogMessage":true,"showCommonLabels":false,"showLabels":false,"showTime":true,"sortOrder":"Descending","wrapLogMessage":true},"targets":[{"expr":"{nivelarquitectura=\"infraestructura\"}","refId":"A"}],"title":"Registros de infraestructura","type":"logs"}
+  ],
+  "refresh":"10s",
+  "schemaVersion":40,
+  "tags":["DermaNube","Observabilidad"],
+  "templating":{"list":[]},
+  "time":{"from":"now-6h","to":"now"},
+  "timezone":"browser",
+  "title":"Resumen operativo DermaNube",
+  "uid":"resumenDermaNube",
+  "version":1
+}

@@ -1,0 +1,10 @@
+- name: Configurar servidor de automatizacion
+  hosts: automatizacion
+  become: true
+  vars:
+    versionTerraform: "1.15.8"
+    versionKubectl: "1.35.0"
+    versionHelm: "3.21.3"
+    versionConftest: "0.68.2"
+  roles:
+    - ServidorAutomatizacion

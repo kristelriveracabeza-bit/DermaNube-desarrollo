@@ -1,0 +1,18 @@
+{
+  "name": "serviciopersonas",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/Servidor.js",
+  "scripts": {
+    "iniciar": "node src/Servidor.js",
+    "probar": "node --test Pruebas/*.test.js"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.750.0",
+    "@aws-sdk/lib-dynamodb": "^3.750.0",
+    "@opensearch-project/opensearch": "^3.4.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "@aws-sdk/credential-providers": "^3.750.0"
+  }
+}

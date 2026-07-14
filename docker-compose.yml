@@ -1,0 +1,183 @@
+services:
+  frontend:
+    build: Aplicacion/Frontend
+    container_name: dermanubeFrontend
+    ports:
+      - "8080:8080"
+    depends_on:
+      serviciopersonas:
+        condition: service_healthy
+      serviciocitas:
+        condition: service_healthy
+    networks:
+      - redDermaNube
+
+  serviciopersonas:
+    build: Aplicacion/ServicioPersonas
+    container_name: dermanubePersonas
+    environment:
+      PUERTO: 3001
+      MODOALMACENAMIENTO: memoria
+      CLAVEINICIALIZACION: InicializarDermaNube
+    ports:
+      - "3001:3001"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3001/personas/salud').then(respuesta=>{if(!respuesta.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - redDermaNube
+
+  serviciocitas:
+    build: Aplicacion/ServicioCitas
+    container_name: dermanubeCitas
+    environment:
+      PUERTO: 3002
+      MODOALMACENAMIENTO: memoria
+      ENDPOINTREDIS: redis
+      PUERTOREDIS: 6379
+    ports:
+      - "3002:3002"
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3002/citas/salud').then(respuesta=>{if(!respuesta.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - redDermaNube
+
+  redis:
+    image: redis:7.4-alpine
+    container_name: dermanubeRedis
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - datosRedis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - redDermaNube
+
+  prometheus:
+    image: prom/prometheus:v3.2.1
+    container_name: dermanubePrometheus
+    command: ["--config.file=/etc/prometheus/prometheus.yml", "--storage.tsdb.path=/prometheus", "--web.enable-lifecycle"]
+    volumes:
+      - ./Observabilidad/Prometheus/Prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - datosPrometheus:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - redDermaNube
+
+  loki:
+    image: grafana/loki:3.4.2
+    container_name: dermanubeLoki
+    user: "0"
+    command: ["-config.file=/etc/loki/Loki.yml"]
+    volumes:
+      - ./Observabilidad/Loki/Loki.yml:/etc/loki/Loki.yml:ro
+      - datosLoki:/loki
+    ports:
+      - "3100:3100"
+    networks:
+      - redDermaNube
+
+  alloy:
+    image: grafana/alloy:v1.7.5
+    container_name: dermanubeAlloy
+    command: ["run", "/etc/alloy/Configuracion.alloy", "--server.http.listen-addr=0.0.0.0:12345"]
+    volumes:
+      - ./Observabilidad/Alloy/Configuracion.alloy:/etc/alloy/Configuracion.alloy:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - "12345:12345"
+    depends_on:
+      - loki
+    networks:
+      - redDermaNube
+
+  nodexporter:
+    image: prom/node-exporter:v1.8.2
+    container_name: dermanubeNodeExporter
+    ports:
+      - "9100:9100"
+    networks:
+      - redDermaNube
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.49.2
+    container_name: dermanubeCadvisor
+    privileged: true
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
+    ports:
+      - "8081:8080"
+    networks:
+      - redDermaNube
+
+  grafana:
+    image: grafana/grafana:11.6.0
+    container_name: dermanubeGrafana
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${CLAVEGRAFANA:-DermaNubeLocal2026}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+    volumes:
+      - ./Observabilidad/Grafana/Aprovisionamiento:/etc/grafana/provisioning:ro
+      - ./Observabilidad/Grafana/Tableros:/var/lib/grafana/dashboards:ro
+      - datosGrafana:/var/lib/grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+      - loki
+    networks:
+      - redDermaNube
+
+  sonarqube:
+    image: sonarqube:community
+    container_name: dermanubeSonarQube
+    profiles: ["calidad"]
+    environment:
+      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
+    ports:
+      - "9000:9000"
+    volumes:
+      - datosSonar:/opt/sonarqube/data
+    networks:
+      - redDermaNube
+
+  jenkins:
+    image: jenkins/jenkins:lts-jdk21
+    container_name: dermanubeJenkins
+    profiles: ["automatizacion"]
+    ports:
+      - "8088:8080"
+      - "50000:50000"
+    volumes:
+      - datosJenkins:/var/jenkins_home
+    networks:
+      - redDermaNube
+
+networks:
+  redDermaNube:
+    name: redDermaNube
+
+volumes:
+  datosRedis:
+  datosPrometheus:
+  datosLoki:
+  datosGrafana:
+  datosSonar:
+  datosJenkins:

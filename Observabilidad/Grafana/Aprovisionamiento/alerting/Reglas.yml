@@ -1,0 +1,54 @@
+apiVersion: 1
+
+groups:
+  - orgId: 1
+    name: RendimientoServicios
+    folder: DermaNube
+    interval: 1m
+    rules:
+      - uid: erroresServicioCitas
+        title: Errores elevados en ServicioCitas
+        condition: C
+        data:
+          - refId: A
+            datasourceUid: prometheus
+            relativeTimeRange:
+              from: 600
+              to: 0
+            model:
+              expr: rate(serviciocitas_errores_total[5m])
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: A
+          - refId: B
+            datasourceUid: __expr__
+            model:
+              expression: A
+              reducer: last
+              type: reduce
+              refId: B
+          - refId: C
+            datasourceUid: __expr__
+            model:
+              expression: B
+              type: threshold
+              conditions:
+                - evaluator:
+                    params: [0.1]
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params: [C]
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              refId: C
+        for: 2m
+        noDataState: OK
+        execErrState: Error
+        annotations:
+          resumen: El servicio de citas presenta errores sostenidos
+        labels:
+          severidad: alta
