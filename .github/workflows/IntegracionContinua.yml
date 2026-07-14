@@ -1,0 +1,102 @@
+name: IntegracionContinua
+
+on:
+  push:
+    branches: [main, desarrollo]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  REGIONAWS: ${{ secrets.AWSREGION }}
+
+permissions:
+  contents: read
+  id-token: write
+  security-events: write
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obtener codigo
+        uses: actions/checkout@v4
+
+      - name: Preparar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Ejecutar pruebas
+        run: npm test
+
+      - name: Analizar Terraform con Checkov
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: Infraestructura/Terraform
+          config_file: .checkov.yml
+
+      - name: Preparar Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.15.8
+
+      - name: Validar formato Terraform
+        run: terraform fmt -check -recursive Infraestructura/Terraform
+
+      - name: Analizar calidad con SonarQube
+        if: ${{ secrets.SONARTOKEN != '' }}
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONARTOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONARHOSTURL }}
+
+  publicar:
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: validar
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obtener codigo
+        uses: actions/checkout@v4
+
+      - name: Obtener credenciales temporales
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWSROLEARN }}
+          aws-region: ${{ secrets.AWSREGION }}
+
+      - name: Iniciar sesion en ECR
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Construir y publicar imagenes
+        env:
+          REGISTRO: ${{ steps.ecr.outputs.registry }}
+          ETIQUETA: ${{ github.sha }}
+        run: |
+          publicarImagen() {
+            Repositorio="$1"
+            Contexto="$2"
+            NombreRepositorio="${Repositorio#*/}"
+            if aws ecr describe-images --region "$REGIONAWS" --repository-name "$NombreRepositorio" --image-ids "imageTag=$ETIQUETA" >/dev/null 2>&1; then
+              echo "La imagen $Repositorio:$ETIQUETA ya existe"
+              return
+            fi
+            docker build -t "$Repositorio:$ETIQUETA" "$Contexto"
+            docker push "$Repositorio:$ETIQUETA"
+          }
+          publicarImagen "$REGISTRO/dermanube-produccion/serviciopersonas" Aplicacion/ServicioPersonas
+          publicarImagen "$REGISTRO/dermanube-produccion/serviciocitas" Aplicacion/ServicioCitas
+          publicarImagen "$REGISTRO/dermanube-produccion/trabajadordocumentos" Aplicacion/TrabajadorDocumentos
+
+      - name: Activar Jenkins
+        if: ${{ secrets.JENKINSURL != '' }}
+        env:
+          JENKINSURL: ${{ secrets.JENKINSURL }}
+          JENKINSTOKEN: ${{ secrets.JENKINSTOKEN }}
+          ETIQUETA: ${{ github.sha }}
+        run: curl --fail --user "$JENKINSTOKEN" -X POST "$JENKINSURL/buildWithParameters?ETIQUETAIMAGEN=$ETIQUETA&AMBIENTE=produccion"
