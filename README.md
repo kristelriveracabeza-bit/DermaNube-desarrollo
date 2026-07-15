@@ -34,51 +34,7 @@ DermaNube es una plataforma web para la gestión de evaluaciones dermatológicas
 - Análisis de código con SonarQube.
 
 ## Arquitectura
-
-```mermaid
-flowchart TB
-    Desarrollador --> GitHub
-    GitHub --> GitHubActions
-    GitHubActions --> SonarQube
-    GitHubActions --> Checkov
-    GitHubActions --> ECR
-    GitHubActions --> Jenkins
-    Jenkins --> Terraform
-    Jenkins --> Ansible
-    Jenkins --> ECS
-    Jenkins --> EKS
-
-    Usuario --> Route53
-    Route53 --> WAF
-    WAF --> CloudFront
-    CloudFront --> S3
-    Usuario --> ApiGateway
-    ApiGateway --> Cognito
-    ApiGateway --> ALB
-    ALB --> ServicioPersonas
-    ALB --> ServicioCitas
-    ServicioPersonas --> DynamoDB
-    ServicioPersonas --> OpenSearch
-    ServicioCitas --> DynamoDB
-    ServicioCitas --> Redis
-    ServicioCitas --> SNS
-    SNS --> SQSNotificaciones
-    SNS --> SQSDocumentos
-    SQSNotificaciones --> Lambda
-    SQSDocumentos --> EKS
-    EKS --> S3Documentos
-    ECS --> CloudMap
-    ECS --> Prometheus
-    EKS --> Prometheus
-    Prometheus --> Grafana
-    ECS --> Loki
-    EKS --> Loki
-    Loki --> Grafana
-    CloudTrail --> S3Auditoria
-    AWSBackup --> DynamoDB
-    AWSBudgets --> EquipoOperaciones
-```
-
+  https://raw.githubusercontent.com/tu-usuario/tu-repo/main/Captura%20de%20pantalla%202026-07-15%20163304.png
 ## Estructura
 
 ```text
