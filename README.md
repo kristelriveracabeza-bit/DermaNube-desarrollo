@@ -34,7 +34,7 @@ DermaNube es una plataforma web para la gestión de evaluaciones dermatológicas
 - Análisis de código con SonarQube.
 
 ## Arquitectura
-  https://raw.githubusercontent.com/tu-usuario/tu-repo/main/Captura%20de%20pantalla%202026-07-15%20163304.png
+![Captura de pantalla](https://raw.githubusercontent.com/kristelriveracabeza-bit/DermaNube-desarrollo/28a4d3f0f6f9a99a9d46730351279715f892045b/Captura%20de%20pantalla%202026-07-15%20163304.png)
 ## Estructura
 
 ```text
