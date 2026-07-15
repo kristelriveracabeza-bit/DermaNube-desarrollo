@@ -49,7 +49,7 @@ jobs:
         run: terraform fmt -check -recursive Infraestructura/Terraform
 
       - name: Analizar calidad con SonarQube
-        if: ${{ secrets.SONARTOKEN != 'https://carnation-reusable-stuffing.ngrok-free.dev/job/DermaNube-Despliegue' }}
+        if: ${{ secrets.SONARTOKEN != '' }}
         uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONARTOKEN }}
@@ -94,7 +94,7 @@ jobs:
           publicarImagen "$REGISTRO/dermanube-produccion/trabajadordocumentos" Aplicacion/TrabajadorDocumentos
 
       - name: Activar Jenkins
-        if: ${{ secrets.JENKINSURL != 'https://carnation-reusable-stuffing.ngrok-free.dev/job/DermaNube-Despliegue'}}
+        if: ${{ secrets.JENKINSURL != '' }}
         env:
           JENKINSURL: ${{ secrets.JENKINSURL }}
           JENKINSTOKEN: ${{ secrets.JENKINSTOKEN }}
