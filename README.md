@@ -33,7 +33,7 @@ DermaNube es una plataforma web para la gestión de evaluaciones dermatológicas
 - Análisis de infraestructura con Checkov y políticas OPA.
 - Análisis de código con SonarQube.
 
-## Arquitectura
+![Diagrama de Dermanube](https://github.com/kristelriveracabeza-bit/DermaNube-desarrollo/blob/96bab7ec86a13306eee7644af788841696d6beac/Diagrama%20de%20Dermanube.png?raw=true)
 
 ## Estructura
 
